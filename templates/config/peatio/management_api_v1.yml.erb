@@ -1,0 +1,103 @@
+# Be sure to restart your server when you modify this file.
+#
+# This file keeps all the security configuration variables for «Management API v1».
+#
+# Keeps all the public keys used to validate signers.
+# All values must be presented in PEM format and be URL-safe Base64 encoded.
+#
+keychain:
+  barong:
+    algorithm: RS256
+    value: <%= @barong_public_key %>
+
+keychain:
+  peatio:
+    algorithm: RS256
+    value: <%= @barong_public_key %>
+#
+#
+# Keeps all the JWT verification options.
+# The documentation is available at https://github.com/jwt/ruby-jwt#support-for-reserved-claim-names.
+# Check lib/jwt/default_options.rb for the default options.
+#
+jwt: {}
+
+#
+# Keep all the API security scopes.
+#
+# The API security scope consists of scope name, list of permitted and mandatory signers.
+# The scope name is associated with API actions. For example, write_deposits is associated with
+# ability to create deposits and accept them. The scopes which have «write» in the name are supposed
+# to be dangerous so they must require more signers then read-only scopes
+#
+#
+scopes:
+  read_operations:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_users:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_deposits:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_deposits:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_withdraws:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_withdraws:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_transfers:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_transfers:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_operations:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_currencies:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_currencies:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_markets:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_markets:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_accounts:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_accounts:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  read_trades:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_trades:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  otp_sign:
+    permitted_signers: ['barong']
+    mandatory_signers: ['barong']
+  write_members:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  write_labels:
+    permitted_signers: ['barong']
+    mandatory_signers: ['barong']
+  tools:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  arke:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']
+  tool:
+    permitted_signers: ['barong','peatio']
+    mandatory_signers: ['barong']

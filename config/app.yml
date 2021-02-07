@@ -1,0 +1,136 @@
+app:
+  name: "QuantaEx"
+  domain: "quantaex.com"
+  subdomain: "www"
+render_protect: false
+ssl:
+  enabled: true    # Make sure to enable during deployment
+  email: "info@ndexnetwork.com"
+images:
+  peatio: nexbitio/qfinex-2.3.5
+  barong: nexbitio/barong-2.3s
+  frontend: ndexnetwork/npro:v3.1.4
+  tower: nexbitio/tower-2.3s
+  postmaster: ndexnetwork/postman
+  dsr: nexbitio/dsr
+arke_proxy:
+  enabled: false
+vendor:
+  frontend: git@bitbucket.org:nexbitdev/npro23.git
+vault:
+  mode: production
+  token: s.zltA8xI3ezDAhvYvelZnuiMd
+database:
+  host: db
+  port: 3306
+  user: root
+  password: KuttA_2021BD
+storage:
+  provider: S3
+  bucketName: quantaex-bucket
+  region:  ewr1
+  endpoint: https://ewr1.vultrobjects.com
+  accessKey: "D4LDBH6XXOP631JKXDW7"
+  secretKey: "NPsHd1xxFzLV7u8GRmw5R0CyGeBWg5coECZv4oPD"
+  signatureVersion: '2'
+twilio:
+  enabled: true
+  phone_number: "+12817126868"
+  account_sid: "ACd30cca1e2bdd4e999fdcf008b75d8cbd"
+  auth_token: "6727408597c114756c64b3b53fa0e9e0"
+  service_sid: "MG9973987c2df2fd079d00913379b2723e"
+captcha:
+  type: recaptcha
+  siteKey: "6LebLqYUAAAAAF3Y_G8eW908tOo3harEerC0ZMXM"
+  secretKey: "6LebLqYUAAAAALmIFAvtmvyuR2gPcPF_Ul1s_pS5"
+smtp:
+  host: smtp.postmarkapp.com
+  port: 587
+  user: f3db17b4-6c9c-44a2-8a44-b2e537c89eae
+  password: f3db17b4-6c9c-44a2-8a44-b2e537c89eae
+  sender_email: no-reply@quantaex.com
+  sender_name: QuantaEx
+wallets:
+  btc:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+      secret: changeme
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+      secret: changeme
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+      secret: changeme
+  eth:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+      secret: changeme
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+      secret: changeme
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+      secret: changeme
+  ndc:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+      secret: changeme
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+      secret: changeme
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+      secret: changeme
+  ndx:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+parity:
+  network: mainnet
+  address: parity
+  rpcport: 8545
+  port: 30303
+bitcoind:
+  rpcuser: HUYT67GJUJJNDgdj
+  rpcpassword: YUFhf_K&&fhfndklfnvn
+  address: bitcoin
+  network: mainnet
+  rpcport: 8332
+  port: 8333
+litecoind:
+  rpcuser: HUYT67GJUJJNDgdj
+  rpcpassword: YUFhf_K&&fhfndklfnvn
+  address: litecoin
+  network: mainnet
+  rpcport: 9332
+  port: 9335
+ndcd:
+  rpcuser: HUYT67GJUJJNDgdj
+  rpcpassword: YUFhf_K&&fhfndklfnvn
+  address: ndc
+  network: mainnet
+  rpcport: 17798
+  port: 17799
+terraform:
+  credentials: "~/safe/ndax.json"
+  project: example-ndax
+  region: europe-west4
+  zone: europe-west4-a
+  instance_name: ndax-cloud
+  machine_type: n1-standard-4
+  image: debian-cloud/debian-9

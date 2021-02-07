@@ -1,0 +1,92 @@
+<% if ENV['TRADING_FEES_CONFIG'] %>
+<%= File.read(ENV['TRADING_FEES_CONFIG']) %>
+<% else %>
+- id:                btcusdt
+  base_unit:         btc
+  quote_unit:        usdt
+  amount_precision:  4
+  price_precision:   4
+  min_price:         0.0001
+  max_price:         0.0
+  min_amount:        0.0001
+  position:          100
+  state:             enabled
+ 
+- id:                ethusdt
+  base_unit:         eth
+  quote_unit:        usdt
+  amount_precision:  4
+  price_precision:   4
+  min_price:         0.0001
+  max_price:         0.0
+  min_amount:        0.0001
+  position:          101
+  state:             enabled
+
+- id:                ethbtc
+  base_unit:         eth
+  quote_unit:        btc
+  amount_precision:  4
+  price_precision:   4
+  min_price:         0.0001
+  max_price:         0.0
+  min_amount:        0.0001
+  position:          102
+  state:             enabled
+
+- id:                ltcusdt
+  base_unit:         ltc
+  quote_unit:        usdt
+  amount_precision:  4
+  price_precision:   4
+  min_price:         30.00
+  max_price:         0.0
+  min_amount:        0.001
+  position:          103
+  state:             enabled
+
+
+- id:                ltcbtc
+  base_unit:         ltc
+  quote_unit:        btc
+  amount_precision:  4
+  price_precision:   4
+  min_price:         0.0001
+  max_price:         0.0
+  min_amount:        0.001
+  position:          104
+  state:             enabled
+ 
+- id:                qbtcqudc
+  base_unit:         qbtc
+  quote_unit:        qudc
+  amount_precision:  2
+  price_precision:   6
+  min_price:         6000.000001
+  max_price:         0.0
+  min_amount:        0.005
+  position:          105
+  state:             enabled
+
+- id:                qpyusdt
+  base_unit:         qpy
+  quote_unit:        usdt
+  amount_precision:  2
+  price_precision:   6
+  min_price:         0.000001
+  max_price:         0.0
+  min_amount:        1000
+  position:          106
+  state:             enabled
+
+- id:                dsrusdt
+  base_unit:         dsr
+  quote_unit:        usdt
+  amount_precision:  2
+  price_precision:   4
+  min_price:         0.05
+  max_price:         0.0
+  min_amount:        100
+  position:          107
+  state:             enabled
+<% end %>

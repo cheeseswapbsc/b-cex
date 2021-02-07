@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  gateway:
+    restart: always
+    image: envoyproxy/envoy:v1.10.0
+    volumes:
+      - ../config/gateway:/etc/envoy/
+    command: /usr/local/bin/envoy -l info -c /etc/envoy/envoy.yaml
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "PathPrefix:/api/, /admin, /assets/;Host:www.quantaex.com"
+      traefik.default.port: 8099
+      traefik.default.protocol: http
+      traefik.wss.frontend.rule: "Host:www.quantaex.com"
+      traefik.wss.protocol: wss
+      traefik.wss.port: 8099

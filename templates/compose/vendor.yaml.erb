@@ -1,0 +1,20 @@
+version: '3.6'
+
+services:
+  frontend:
+    image: node:11
+    restart: always
+    user: "${UID}:${GID}"
+    volumes:
+      - ../vendor/frontend:/home/node
+    command:
+      - sh
+      - -c
+      - |
+        cd /home/node
+        yarn
+        yarn start
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+      traefik.port: 3000

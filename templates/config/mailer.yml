@@ -1,0 +1,97 @@
+keychain:
+  barong:
+    algorithm: RS256
+    value: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF5a2E0ODRxT2JvMnVsYmhUbUZNVApKRlYvNTdYUDY5eU8wamFZSWdvNDZLUXIxRXdrWE5wWEhLOG14RzRlTi8ySjJWREhDT0xsWDY2SzU0NFNFc3dHCk04Qk9mNFE0aHRCeXNhQklOZVNOc3FiMk0wV2VhQWtDVEdnNkJSSjc5Q25xQkNVc2FibUdUTVBSbHhyZzJvczYKNFQ3cmJ1N0ZGaDVmMEhmYzdTcXVVd0h4b2FQemxXWjlmU0dTTkZneFdyVnUxcWFtWDFnRWtaK1lWdGR4eS9UKwpRSG5sU2tjOXFzQnRDZ1ZXb2xPOHlQNFp0OVMxWk1Gcmx4UE9MWHhVazQwU1BQNEhEZzdoMVdYcndaREZvYzhICklSZmp6QkJ6cUtSMDM4TmFOajgrMk5UVzEzVGxIU1dSbVJjT2pSRkR0LzBUWHp2dzV6M2V2YWpZZU1qa1NxeWkKaXdJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+  peatio:
+    algorithm: RS256
+    value: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF5a2E0ODRxT2JvMnVsYmhUbUZNVApKRlYvNTdYUDY5eU8wamFZSWdvNDZLUXIxRXdrWE5wWEhLOG14RzRlTi8ySjJWREhDT0xsWDY2SzU0NFNFc3dHCk04Qk9mNFE0aHRCeXNhQklOZVNOc3FiMk0wV2VhQWtDVEdnNkJSSjc5Q25xQkNVc2FibUdUTVBSbHhyZzJvczYKNFQ3cmJ1N0ZGaDVmMEhmYzdTcXVVd0h4b2FQemxXWjlmU0dTTkZneFdyVnUxcWFtWDFnRWtaK1lWdGR4eS9UKwpRSG5sU2tjOXFzQnRDZ1ZXb2xPOHlQNFp0OVMxWk1Gcmx4UE9MWHhVazQwU1BQNEhEZzdoMVdYcndaREZvYzhICklSZmp6QkJ6cUtSMDM4TmFOajgrMk5UVzEzVGxIU1dSbVJjT2pSRkR0LzBUWHp2dzV6M2V2YWpZZU1qa1NxeWkKaXdJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+
+exchanges:
+  barong_system:
+    name: barong.events.system
+    signer: barong
+  barong_model:
+    name: barong.events.model
+    signer: barong
+  peatio:
+    name: peatio.events.model
+    signer: peatio
+
+events:
+- name: Email Confirmation
+  key: user.email.confirmation.token
+  exchange: barong_system
+  templates:
+    en:
+      subject: Registration Confirmation
+      template_path: email_confirmation.en.html.erb
+    ru:
+      subject: Подтверждение Регистрации
+      template_path: email_confirmation.ru.html.erb
+
+- name: Password Reset
+  key: user.password.reset.token
+  exchange: barong_system
+  templates:
+    en:
+      subject: Password Reset
+      template_path: password_reset.en.html.erb
+    ru:
+      subject: Сброс Пароля
+      template_path: password_reset.ru.html.erb
+
+- name: Label Created
+  key: label.created
+  exchange: barong_model
+  expression: |
+    record.key in ["phone", "profile", "document"] &&
+    record.value in ["verified", "rejected"]
+  templates:
+    en:
+      subject: Account Details Updated
+      template_path: label_created.en.html.erb
+
+- name: Label Updated
+  key: label.updated
+  exchange: barong_model
+  expression: |
+    record.key in ["phone", "profile", "document"] &&
+    record.value in ["verified", "rejected"]
+  templates:
+    en:
+      subject: Account Details Updated
+      template_path: label_created.en.html.erb
+
+- name: Deposit Accepted
+  key: deposit.updated
+  exchange: peatio
+  expression: changes.state == "submitted" && record.state == "accepted"
+  templates:
+    en:
+      subject: Deposit Accepted
+      template_path: deposit_accepted.en.html.erb
+
+- name: Session Create
+  key: session.create
+  exchange: barong_system
+  templates:
+    en:
+      subject: New Login
+      template_path: session_create.en.html.erb
+
+- name: Withdrawal Succeed
+  key: withdraw.updated
+  exchange: peatio
+  expression: changes.state in ["errored", "confirming"] && record.state == "succeed"
+  templates:
+    en:
+      subject: Withdrawal Succeed
+      template_path: withdraw_succeed.en.html.erb
+
+- name: New Beneficiary
+  key: beneficiary.created
+  exchange: peatio
+  templates:
+    en:
+      subject: New Beneficiary
+      template_path: new_beneficiary.en.html.erb

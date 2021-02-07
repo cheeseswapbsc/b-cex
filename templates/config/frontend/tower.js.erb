@@ -1,0 +1,17 @@
+window.env = {
+    authUrl: '<%= ssl_helper('http') %>://<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>/api/v2/barong',
+    peatioUrl: '<%= ssl_helper('http') %>://<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>/api/v2/peatio',
+    msAlertDisplayTime: '5000',
+    tablePageLimit: 50,
+    minutesUntilAutoLogout: '120',
+    captcha: {
+        captchaType: '<%= @config['captcha']['type'] %>',
+        siteKey: '<%= @config['captcha']['siteKey'] %>',
+    },
+    labelSwitcher: [
+        { name: 'email', label: [{ email: 'verified' }] },
+        { name: 'phone', label: [{ phone: 'verified' }] },
+        { name: 'residence', label: [{ document: 'verified' }] },
+    ],
+    plugins: [],
+};

@@ -1,0 +1,145 @@
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8099
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              cors:
+                allow_origin:
+                - "https://www.quantaex.com"
+                allow_methods: "PUT, GET, POST"
+                allow_headers: "content-type, x-grpc-web"
+                filter_enabled:
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                  runtime_key: cors.www.enabled
+              routes:
+              - match:
+                  prefix: "/api/v2/barong"
+                route:
+                  cluster: barong
+                  prefix_rewrite: "/api/v2/"
+              - match:
+                  prefix: "/api/v2/arke"
+                route:
+                  cluster: arke
+                  prefix_rewrite: "/api/v2/"
+              - match:
+                  prefix: "/api/v2/peatio"
+                route:
+                  cluster: peatio
+                  prefix_rewrite: "/api/v2/"
+              - match:
+                  prefix: "/admin"
+                route:
+                  cluster: peatio
+              - match:
+                  prefix: "/assets/"
+                route:
+                  cluster: peatio
+              - match:
+                  prefix: "/api/v2/ranger/public"
+                route:
+                  cluster: ranger
+                  prefix_rewrite: "/"
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
+                  prefix: "/api/v2/ranger/private"
+                route:
+                  cluster: ranger
+                  prefix_rewrite: "/"
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+          http_filters:
+          - name: envoy.cors
+            typed_config: {}
+          - name: envoy.ext_authz
+            config:
+              with_request_body:
+                max_request_bytes: 90000000
+                allow_partial_message: true
+              http_service:
+                authorization_request:
+                  allowed_headers:
+                    patterns:
+                    - exact: cookie
+                    - exact: x-auth-apikey
+                    - exact: x-auth-nonce
+                    - exact: x-auth-signature
+                    - exact: user-agent
+                    - exact: x-forwarded-host
+                    - exact: x-forwarded-for
+                    - exact: from
+                    - exact: x-forwarded-proto
+                    - exact: proxy-authorization
+                authorization_response:
+                  allowed_upstream_headers:
+                    patterns:
+                    - exact: authorization
+                  allowed_client_headers:
+                    patterns:
+                    - exact: set-cookie
+                    - exact: proxy-authenticate
+                    - exact: www-authenticate
+                    - exact: location
+                path_prefix: "/api/v2/auth"
+                server_uri:
+                  cluster: barong
+                  timeout: 1.000s
+                  uri: http://barong:8001
+          - name: envoy.router
+            config: {}
+    perConnectionBufferLimitBytes: 10000000
+  clusters:
+  - name: barong
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: barong
+        port_value: 8001
+  - name: arke
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: arke
+        port_value: 8081
+  - name: peatio
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: peatio
+        port_value: 8000
+  - name: ranger
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: ranger
+        port_value: 8080
+admin:
+  access_log_path: "/dev/null"
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9099

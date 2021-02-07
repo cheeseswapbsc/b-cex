@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenDax Webhook service
+
+[Service]
+User=deploy
+Environment="WEBHOOK_JWT_SECRET=GENERATED_HMAC_SECRET"
+ExecStart=/bin/bash -c "source ~/.rvm/scripts/rvm; bundle exec rackup config.ru"
+Type=simple
+Restart=always
+WorkingDirectory=NDAX_DIRECTORY
+
+[Install]
+WantedBy=multi-user.target

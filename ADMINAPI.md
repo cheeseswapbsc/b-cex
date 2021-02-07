@@ -1,0 +1,4883 @@
+{
+  "info": {
+    "title": "Peatio Admin API v2",
+    "description": "Admin API high privileged API with RBAC.",
+    "contact": {
+      "name": "nexbit.io",
+      "email": "hello@nexbit.io",
+      "url": "https://www.nexbit.io"
+    },
+    "license": {
+      "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
+    },
+    "version": "2.4.0"
+  },
+  "swagger": "2.0",
+  "produces": [
+    "application/json"
+  ],
+  "host": "localhost:3000",
+  "basePath": "/api/v2/admin",
+  "tags": [
+    {
+      "name": "adjustments",
+      "description": "Operations about adjustments"
+    },
+    {
+      "name": "orders",
+      "description": "Operations about orders"
+    },
+    {
+      "name": "blockchains",
+      "description": "Operations about blockchains"
+    },
+    {
+      "name": "currencies",
+      "description": "Operations about currencies"
+    },
+    {
+      "name": "markets",
+      "description": "Operations about markets"
+    },
+    {
+      "name": "wallets",
+      "description": "Operations about wallets"
+    },
+    {
+      "name": "deposits",
+      "description": "Operations about deposits"
+    },
+    {
+      "name": "withdraws",
+      "description": "Operations about withdraws"
+    },
+    {
+      "name": "trades",
+      "description": "Operations about trades"
+    },
+    {
+      "name": "assets",
+      "description": "Operations about assets"
+    },
+    {
+      "name": "expenses",
+      "description": "Operations about expenses"
+    },
+    {
+      "name": "revenues",
+      "description": "Operations about revenues"
+    },
+    {
+      "name": "liabilities",
+      "description": "Operations about liabilities"
+    },
+    {
+      "name": "members",
+      "description": "Operations about members"
+    },
+    {
+      "name": "trading_fees",
+      "description": "Operations about trading_fees"
+    }
+  ],
+  "paths": {
+    "/adjustments/action": {
+      "post": {
+        "description": "Accepts adjustment and creates operations or reject adjustment.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique adjustment identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Adjustment action all available actions: [:accept, :reject]",
+            "type": "string",
+            "enum": [
+              "accept",
+              "reject"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Accepts adjustment and creates operations or reject adjustment.",
+            "schema": {
+              "$ref": "#/definitions/Adjustment"
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "postAdjustmentsAction"
+      }
+    },
+    "/adjustments/new": {
+      "post": {
+        "description": "Create new adjustment.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "reason",
+            "description": "Adjustment reason.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Adjustment description.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "category",
+            "description": "Adjustment category",
+            "type": "string",
+            "enum": [
+              "asset_registration",
+              "investment",
+              "minting_token",
+              "balance_anomaly",
+              "misc",
+              "refund",
+              "compensation",
+              "incentive",
+              "bank_fees",
+              "bank_interest",
+              "minor"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "Adjustment amount.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency_id",
+            "description": "Adjustment currency ID.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "asset_account_code",
+            "description": "Adjustment asset account code.",
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              102,
+              101
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "receiving_account_code",
+            "description": "Adjustment receiving account code.",
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              201,
+              202,
+              211,
+              212,
+              301,
+              302,
+              401,
+              402
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "receiving_member_uid",
+            "description": "Adjustment receiving account code.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new adjustment.",
+            "schema": {
+              "$ref": "#/definitions/Adjustment"
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "postAdjustmentsNew"
+      }
+    },
+    "/adjustments/{id}": {
+      "get": {
+        "description": "Get adjustment by ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Adjsustment Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get adjustment by ID",
+            "schema": {
+              "$ref": "#/definitions/Adjustment"
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "getAdjustmentsId"
+      }
+    },
+    "/adjustments": {
+      "get": {
+        "description": "Get all adjustments, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Adjustment's state.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "Adjustment category",
+            "type": "string",
+            "enum": [
+              "asset_registration",
+              "investment",
+              "minting_token",
+              "balance_anomaly",
+              "misc",
+              "refund",
+              "compensation",
+              "incentive",
+              "bank_fees",
+              "bank_interest",
+              "minor"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all adjustments, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Adjustment"
+              }
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "getAdjustments"
+      }
+    },
+    "/orders/cancel": {
+      "post": {
+        "description": "Cancel all orders.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "market",
+            "description": "Unique order id.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "side",
+            "description": "If present, only sell orders (asks) or buy orders (bids) will be cancelled.",
+            "type": "string",
+            "enum": [
+              "sell",
+              "buy"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel all orders."
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "operationId": "postOrdersCancel"
+      }
+    },
+    "/orders/{id}/cancel": {
+      "post": {
+        "description": "Cancel an order.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique order id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel an order."
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "operationId": "postOrdersIdCancel"
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "Get all orders, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Filter order by state.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "wait",
+              "done",
+              "cancel",
+              "reject"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ord_type",
+            "description": "Filter order by ord_type.",
+            "type": "string",
+            "enum": [
+              "market",
+              "limit"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "price",
+            "description": "Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0'",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "origin_volume",
+            "description": "The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Filter order by type.",
+            "type": "string",
+            "enum": [
+              "sell",
+              "buy"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Member email.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all orders, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "operationId": "getOrders"
+      }
+    },
+    "/blockchains/update": {
+      "post": {
+        "description": "Update blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Unique key to identify blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "A name to identify blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "client",
+            "description": "Integrated blockchain client.",
+            "type": "string",
+            "enum": [
+              "bitcoin",
+              "geth",
+              "parity",
+              "dash",
+              "litecoin",
+              "bitcoincash",
+              "ripple",
+              "bitgo"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "server",
+            "description": "Blockchain server url.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "height",
+            "description": "The number of blocks preceding a particular block on blockchain.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_transaction",
+            "description": "Blockchain explorer transaction template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_address",
+            "description": "Blockchain explorer address template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Blockchain status (active/disabled).",
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_confirmations",
+            "description": "Minimum number of confirmations.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "blockchains"
+        ],
+        "operationId": "postBlockchainsUpdate"
+      }
+    },
+    "/blockchains/new": {
+      "post": {
+        "description": "Create new blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Unique key to identify blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "A name to identify blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "client",
+            "description": "Integrated blockchain client.",
+            "type": "string",
+            "enum": [
+              "bitcoin",
+              "geth",
+              "parity",
+              "dash",
+              "litecoin",
+              "bitcoincash",
+              "ripple",
+              "bitgo"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "height",
+            "description": "The number of blocks preceding a particular block on blockchain.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "explorer_transaction",
+            "description": "Blockchain explorer transaction template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_address",
+            "description": "Blockchain explorer address template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "server",
+            "description": "Blockchain server url.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Blockchain status (active/disabled).",
+            "type": "string",
+            "default": "active",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_confirmations",
+            "description": "Minimum number of confirmations.",
+            "type": "integer",
+            "format": "int32",
+            "default": 6,
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "blockchains"
+        ],
+        "operationId": "postBlockchainsNew"
+      }
+    },
+    "/blockchains/{id}": {
+      "get": {
+        "description": "Get a blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "blockchains"
+        ],
+        "operationId": "getBlockchainsId"
+      }
+    },
+    "/blockchains/clients": {
+      "get": {
+        "description": "Get available blockchain clients.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get available blockchain clients."
+          }
+        },
+        "tags": [
+          "blockchains"
+        ],
+        "operationId": "getBlockchainsClients"
+      }
+    },
+    "/blockchains": {
+      "get": {
+        "description": "Get all blockchains, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all blockchains, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Blockchain"
+              }
+            }
+          }
+        },
+        "tags": [
+          "blockchains"
+        ],
+        "operationId": "getBlockchains"
+      }
+    },
+    "/currencies/update": {
+      "post": {
+        "description": "Update currency.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Currency name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_fee",
+            "description": "Currency deposit fee",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_deposit_amount",
+            "description": "Minimal deposit amount",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_collection_amount",
+            "description": "Minimal collection amount.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_fee",
+            "description": "Currency withdraw fee",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_withdraw_amount",
+            "description": "Minimal withdraw amount",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_24h",
+            "description": "Currency 24h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_72h",
+            "description": "Currency 72h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "options",
+            "description": "Currency options.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "visible",
+            "description": "Currency display status (true/false).",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "precision",
+            "description": "Currency precision.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "icon_url",
+            "description": "Currency icon",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Unique currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "symbol",
+            "description": "Currency symbol",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Associated blockchain key which will perform transactions synchronization for currency.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update currency.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "postCurrenciesUpdate"
+      }
+    },
+    "/currencies/new": {
+      "post": {
+        "description": "Create new currency.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Currency name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_fee",
+            "description": "Currency deposit fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_deposit_amount",
+            "description": "Minimal deposit amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_collection_amount",
+            "description": "Minimal collection amount.",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_fee",
+            "description": "Currency withdraw fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_withdraw_amount",
+            "description": "Minimal withdraw amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_24h",
+            "description": "Currency 24h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_72h",
+            "description": "Currency 72h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "options",
+            "description": "Currency options.",
+            "type": "json",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "visible",
+            "description": "Currency display status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "precision",
+            "description": "Currency precision.",
+            "type": "integer",
+            "format": "int32",
+            "default": 8,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "icon_url",
+            "description": "Currency icon",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Unique currency code.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "symbol",
+            "description": "Currency symbol",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "default": "coin",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "base_factor",
+            "description": "Currency base factor.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "subunits",
+            "description": "Fraction of the basic monetary unit.",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 18,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Associated blockchain key which will perform transactions synchronization for currency.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new currency.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "postCurrenciesNew"
+      }
+    },
+    "/currencies/{code}": {
+      "get": {
+        "description": "Get a currency.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "description": "Unique currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a currency.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "getCurrenciesCode"
+      }
+    },
+    "/currencies": {
+      "get": {
+        "description": "Get list of currencies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of currencies",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Currency"
+              }
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "getCurrencies"
+      }
+    },
+    "/markets/update": {
+      "post": {
+        "description": "Update market.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "amount_precision",
+            "description": "Precision for order amount.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price_precision",
+            "description": "Precision for order price.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_price",
+            "description": "Maximum order price.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Market additional data.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Market state defines if user can see/trade on current market.",
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled",
+              "hidden",
+              "locked",
+              "sale",
+              "presale"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "min_price",
+            "description": "Minimum order price.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_amount",
+            "description": "Minimum order amount.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update market.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "postMarketsUpdate"
+      }
+    },
+    "/markets/new": {
+      "post": {
+        "description": "Create new market.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "amount_precision",
+            "description": "Precision for order amount.",
+            "type": "integer",
+            "format": "int32",
+            "default": 4,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price_precision",
+            "description": "Precision for order price.",
+            "type": "integer",
+            "format": "int32",
+            "default": 4,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_price",
+            "description": "Maximum order price.",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Market additional data.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Market state defines if user can see/trade on current market.",
+            "type": "string",
+            "default": "enabled",
+            "enum": [
+              "enabled",
+              "disabled",
+              "hidden",
+              "locked",
+              "sale",
+              "presale"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "base_currency",
+            "description": "Market Base unit.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "quote_currency",
+            "description": "Market Quote unit.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "min_price",
+            "description": "Minimum order price.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "min_amount",
+            "description": "Minimum order amount.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new market.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "postMarketsNew"
+      }
+    },
+    "/markets/{id}": {
+      "get": {
+        "description": "Get market.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get market.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "getMarketsId"
+      }
+    },
+    "/markets": {
+      "get": {
+        "description": "Get all markets, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all markets, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Market"
+              }
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "getMarkets"
+      }
+    },
+    "/wallets/update": {
+      "post": {
+        "description": "Update wallet.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "settings",
+            "description": "Wallet settings.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_balance",
+            "description": "Wallet max balance.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Wallet status (active/disabled).",
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique wallet identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Wallet blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Wallet name.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Wallet address.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "kind",
+            "description": "Kind of wallet 'deposit','fee','hot','warm' or 'cold'.",
+            "type": "string",
+            "enum": [
+              "deposit",
+              "fee",
+              "hot",
+              "warm",
+              "cold"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "gateway",
+            "description": "Wallet gateway.",
+            "type": "string",
+            "enum": [
+              "bitcoind",
+              "geth",
+              "parity",
+              "dashd",
+              "litecoind",
+              "bitcoincashd",
+              "rippled",
+              "bitgo"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "Wallet currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update wallet.",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "postWalletsUpdate"
+      }
+    },
+    "/wallets/new": {
+      "post": {
+        "description": "Creates new wallet.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "settings",
+            "description": "Wallet settings.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_balance",
+            "description": "Wallet max balance.",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Wallet status (active/disabled).",
+            "type": "string",
+            "default": "active",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Wallet blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Wallet name.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Wallet address.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "Wallet currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "kind",
+            "description": "Kind of wallet 'deposit','fee','hot','warm' or 'cold'.",
+            "type": "string",
+            "enum": [
+              "deposit",
+              "fee",
+              "hot",
+              "warm",
+              "cold"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "gateway",
+            "description": "Wallet gateway.",
+            "type": "string",
+            "enum": [
+              "bitcoind",
+              "geth",
+              "parity",
+              "dashd",
+              "litecoind",
+              "bitcoincashd",
+              "rippled",
+              "bitgo"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new wallet.",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "postWalletsNew"
+      }
+    },
+    "/wallets/{id}": {
+      "get": {
+        "description": "Get a wallet.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique wallet identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a wallet.",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWalletsId"
+      }
+    },
+    "/wallets/gateways": {
+      "get": {
+        "description": "List wallet gateways.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List wallet gateways."
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWalletsGateways"
+      }
+    },
+    "/wallets/kinds": {
+      "get": {
+        "description": "List wallet kinds.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List wallet kinds."
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWalletsKinds"
+      }
+    },
+    "/wallets": {
+      "get": {
+        "description": "Get all wallets, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "blockchain_key",
+            "description": "Wallet blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "description": "Kind of wallet 'deposit','fee','hot','warm' or 'cold'.",
+            "type": "string",
+            "enum": [
+              "deposit",
+              "fee",
+              "hot",
+              "warm",
+              "cold"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all wallets, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Wallet"
+              }
+            }
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWallets"
+      }
+    },
+    "/deposits/new": {
+      "post": {
+        "description": "Creates new fiat deposit .",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "Deposit member uid.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "usd",
+              "USD"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "Deposit amount.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "tid",
+            "description": "Deposit tid.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new fiat deposit .",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "deposits"
+        ],
+        "operationId": "postDepositsNew"
+      }
+    },
+    "/deposits/actions": {
+      "post": {
+        "description": "Take an action on the deposit.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique deposit id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:cancel, :reject, :accept, :skip, :dispatch].",
+            "type": "string",
+            "enum": [
+              "cancel",
+              "reject",
+              "accept",
+              "skip",
+              "dispatch"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the deposit.",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "deposits"
+        ],
+        "operationId": "postDepositsActions"
+      }
+    },
+    "/deposits": {
+      "get": {
+        "description": "Get all deposits, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Deposit state.",
+            "type": "string",
+            "enum": [
+              "submitted",
+              "canceled",
+              "rejected",
+              "accepted",
+              "collected",
+              "skipped"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Unique deposit id.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "txid",
+            "description": "Deposit transaction id.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "address",
+            "description": "Deposit blockchain address.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tid",
+            "description": "Deposit tid.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all deposits, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deposit"
+              }
+            }
+          }
+        },
+        "tags": [
+          "deposits"
+        ],
+        "operationId": "getDeposits"
+      }
+    },
+    "/withdraws/actions": {
+      "post": {
+        "description": "Take an action on the withdrawal.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err].",
+            "type": "string",
+            "enum": [
+              "submit",
+              "cancel",
+              "accept",
+              "reject",
+              "process",
+              "load",
+              "dispatch",
+              "success",
+              "skip",
+              "fail",
+              "err"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "txid",
+            "description": "The withdrawal transaction id.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the withdrawal.",
+            "schema": {
+              "$ref": "#/definitions/Withdraw"
+            }
+          }
+        },
+        "tags": [
+          "withdraws"
+        ],
+        "operationId": "postWithdrawsActions"
+      }
+    },
+    "/withdraws/{id}": {
+      "get": {
+        "description": "Get withdraw by ID.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get withdraw by ID.",
+            "schema": {
+              "$ref": "#/definitions/Withdraw"
+            }
+          }
+        },
+        "tags": [
+          "withdraws"
+        ],
+        "operationId": "getWithdrawsId"
+      }
+    },
+    "/withdraws": {
+      "get": {
+        "description": "Get all withdraws, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "description": "The withdrawal state.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "txid",
+            "description": "The withdrawal transaction id.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tid",
+            "description": "Withdraw tid.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "confirmations",
+            "description": "Number of confirmations.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "The beneficiary ID or wallet address on the Blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all withdraws, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Withdraw"
+              }
+            }
+          }
+        },
+        "tags": [
+          "withdraws"
+        ],
+        "operationId": "getWithdraws"
+      }
+    },
+    "/trades/{id}": {
+      "get": {
+        "description": "Get a trade with detailed information.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Trade ID.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a trade with detailed information.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "trades"
+        ],
+        "operationId": "getTradesId"
+      }
+    },
+    "/trades": {
+      "get": {
+        "description": "Get all trades, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_id",
+            "description": "Unique order id.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all trades, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Trade"
+              }
+            }
+          }
+        },
+        "tags": [
+          "trades"
+        ],
+        "operationId": "getTrades"
+      }
+    },
+    "/assets": {
+      "get": {
+        "description": "Returns assets as a paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "reference_type",
+            "description": "The reference type for which operation was created.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "The unique id of operation's reference, for which operation was created.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "description": "Opeartion's code.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns assets as a paginated collection.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        },
+        "tags": [
+          "assets"
+        ],
+        "operationId": "getAssets"
+      }
+    },
+    "/expenses": {
+      "get": {
+        "description": "Returns expenses as a paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "reference_type",
+            "description": "The reference type for which operation was created.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "The unique id of operation's reference, for which operation was created.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "description": "Opeartion's code.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns expenses as a paginated collection.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        },
+        "tags": [
+          "expenses"
+        ],
+        "operationId": "getExpenses"
+      }
+    },
+    "/revenues": {
+      "get": {
+        "description": "Returns revenues as a paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "reference_type",
+            "description": "The reference type for which operation was created.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "The unique id of operation's reference, for which operation was created.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "description": "Opeartion's code.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns revenues as a paginated collection.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        },
+        "tags": [
+          "revenues"
+        ],
+        "operationId": "getRevenues"
+      }
+    },
+    "/liabilities": {
+      "get": {
+        "description": "Returns liabilities as a paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "reference_type",
+            "description": "The reference type for which operation was created.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "The unique id of operation's reference, for which operation was created.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "description": "Opeartion's code.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns liabilities as a paginated collection.",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        },
+        "tags": [
+          "liabilities"
+        ],
+        "operationId": "getLiabilities"
+      }
+    },
+    "/members/{uid}": {
+      "put": {
+        "description": "Set user group.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "User gruop",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Set user group.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "putMembersUid"
+      },
+      "get": {
+        "description": "Get a member.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a member.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "getMembersUid"
+      }
+    },
+    "/members/groups": {
+      "get": {
+        "description": "Get available members groups.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get available members groups."
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "getMembersGroups"
+      }
+    },
+    "/members": {
+      "get": {
+        "description": "Get all members, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Filter order by state.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "role",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "superadmin",
+              "admin",
+              "accountant",
+              "compliance",
+              "support",
+              "technical",
+              "member",
+              "broker",
+              "trader",
+              "maker"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "group",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "any",
+              "vip-0",
+              "vip-1",
+              "vip-2",
+              "vip-3"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Member email.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all members, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Member"
+              }
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "getMembers"
+      }
+    },
+    "/trading_fees/delete": {
+      "post": {
+        "description": "It deletes trading fees record",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique trading fee table identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "It deletes trading fees record",
+            "schema": {
+              "$ref": "#/definitions/TradingFee"
+            }
+          }
+        },
+        "tags": [
+          "trading_fees"
+        ],
+        "operationId": "postTradingFeesDelete"
+      }
+    },
+    "/trading_fees/update": {
+      "post": {
+        "description": "It updates trading fees record",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique trading fee table identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "maker",
+            "description": "Market maker fee.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "taker",
+            "description": "Market taker fee.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "Member group for define maker/taker fee.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_id",
+            "description": "Market id for define maker/taker fee.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth",
+              "any"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "It updates trading fees record",
+            "schema": {
+              "$ref": "#/definitions/TradingFee"
+            }
+          }
+        },
+        "tags": [
+          "trading_fees"
+        ],
+        "operationId": "postTradingFeesUpdate"
+      }
+    },
+    "/trading_fees/new": {
+      "post": {
+        "description": "It creates trading fees record",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "maker",
+            "description": "Market maker fee.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "taker",
+            "description": "Market taker fee.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "Member group for define maker/taker fee.",
+            "type": "string",
+            "default": "any",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_id",
+            "description": "Market id for define maker/taker fee.",
+            "type": "string",
+            "default": "any",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth",
+              "any"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "It creates trading fees record",
+            "schema": {
+              "$ref": "#/definitions/TradingFee"
+            }
+          }
+        },
+        "tags": [
+          "trading_fees"
+        ],
+        "operationId": "postTradingFeesNew"
+      }
+    },
+    "/trading_fees": {
+      "get": {
+        "description": "Returns trading_fees table as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "group",
+            "description": "Member group for define maker/taker fee.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_id",
+            "description": "Market id for define maker/taker fee.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth",
+              "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns trading_fees table as paginated collection",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TradingFee"
+              }
+            }
+          }
+        },
+        "tags": [
+          "trading_fees"
+        ],
+        "operationId": "getTradingFees"
+      }
+    }
+  },
+  "definitions": {
+    "Adjustment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment identifier in database."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Adjustment reason."
+        },
+        "description": {
+          "type": "string",
+          "description": "Adjustment description."
+        },
+        "category": {
+          "type": "string",
+          "description": "Adjustment category"
+        },
+        "amount": {
+          "type": "string",
+          "description": "Adjustment amount."
+        },
+        "validator_uid": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment validator identifier in database."
+        },
+        "creator_uid": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment creator identifier in database."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Adjustment currency ID."
+        },
+        "asset": {
+          "$ref": "#/definitions/Operation"
+        },
+        "liability": {
+          "$ref": "#/definitions/Operation"
+        },
+        "revenue": {
+          "$ref": "#/definitions/Operation"
+        },
+        "expense": {
+          "$ref": "#/definitions/Operation"
+        },
+        "state": {
+          "type": "string",
+          "description": "Adjustment's state."
+        },
+        "asset_account_code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Adjustment asset account code."
+        },
+        "receiving_account_code": {
+          "type": "string",
+          "description": "Adjustment receiving account code."
+        },
+        "receiving_member_uid": {
+          "type": "string",
+          "description": "Adjustment receiving member uid."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when operation was created."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetime when operation was updated."
+        }
+      },
+      "description": "Get all adjustments, result is paginated."
+    },
+    "Operation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique operation identifier in database."
+        },
+        "code": {
+          "type": "string",
+          "description": "The Account code which this operation related to."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Operation currency ID."
+        },
+        "credit": {
+          "type": "string",
+          "description": "Operation credit amount."
+        },
+        "debit": {
+          "type": "string",
+          "description": "Operation debit amount."
+        },
+        "uid": {
+          "type": "string",
+          "description": "The shared user ID."
+        },
+        "account_kind": {
+          "type": "string",
+          "description": "Operation's account kind (locked or main)."
+        },
+        "rid": {
+          "type": "string",
+          "description": "The id of operation reference."
+        },
+        "reference_type": {
+          "type": "string",
+          "description": "The type of operations."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when operation was created."
+        }
+      },
+      "description": "Returns liabilities as a paginated collection."
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique order id."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique order UUID."
+        },
+        "side": {
+          "type": "string",
+          "description": "Either 'sell' or 'buy'."
+        },
+        "ord_type": {
+          "type": "string",
+          "description": "Type of order, either 'limit' or 'market'."
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0'"
+        },
+        "avg_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Average execution price, average of price in trades."
+        },
+        "state": {
+          "type": "string",
+          "description": "One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled."
+        },
+        "market": {
+          "type": "string",
+          "description": "The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Order create time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Order updated time in iso8601 format."
+        },
+        "origin_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'."
+        },
+        "remaining_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The remaining volume, see 'volume'."
+        },
+        "executed_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The executed volume, see 'volume'."
+        },
+        "trades_count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of trades."
+        },
+        "email": {
+          "type": "string",
+          "description": "The shared user email."
+        },
+        "uid": {
+          "type": "string",
+          "description": "The shared user ID."
+        }
+      },
+      "description": "Get all orders, result is paginated."
+    },
+    "Blockchain": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique blockchain identifier in database."
+        },
+        "key": {
+          "type": "string",
+          "description": "Unique key to identify blockchain."
+        },
+        "name": {
+          "type": "string",
+          "description": "A name to identify blockchain."
+        },
+        "client": {
+          "type": "string",
+          "description": "Integrated blockchain client."
+        },
+        "server": {
+          "type": "string",
+          "description": "Blockchain server url."
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of blocks preceding a particular block on blockchain."
+        },
+        "explorer_address": {
+          "type": "string",
+          "description": "Blockchain explorer address template."
+        },
+        "explorer_transaction": {
+          "type": "string",
+          "description": "Blockchain explorer transaction template."
+        },
+        "min_confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum number of confirmations."
+        },
+        "status": {
+          "type": "string",
+          "description": "Blockchain status (active/disabled)."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Blockchain created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Blockchain updated time in iso8601 format."
+        }
+      },
+      "description": "Get a trade with detailed information."
+    },
+    "Currency": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Bitcoin",
+          "description": "Currency name"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "฿",
+          "description": "Currency symbol"
+        },
+        "explorer_transaction": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/tx/",
+          "description": "Currency transaction exprorer url template"
+        },
+        "explorer_address": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/address/",
+          "description": "Currency address exprorer url template"
+        },
+        "type": {
+          "type": "string",
+          "example": "coin",
+          "description": "Currency type"
+        },
+        "deposit_enabled": {
+          "type": "string",
+          "description": "Currency deposit possibility status (true/false)."
+        },
+        "withdrawal_enabled": {
+          "type": "string",
+          "description": "Currency withdrawal possibility status (true/false)."
+        },
+        "deposit_fee": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Currency deposit fee"
+        },
+        "min_deposit_amount": {
+          "type": "string",
+          "example": "0.0000356",
+          "description": "Minimal deposit amount"
+        },
+        "withdraw_fee": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Currency withdraw fee"
+        },
+        "min_withdraw_amount": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Minimal withdraw amount"
+        },
+        "withdraw_limit_24h": {
+          "type": "string",
+          "example": "0.1",
+          "description": "Currency 24h withdraw limit"
+        },
+        "withdraw_limit_72h": {
+          "type": "string",
+          "example": "0.2",
+          "description": "Currency 72h withdraw limit"
+        },
+        "base_factor": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency base factor."
+        },
+        "precision": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency precision."
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency position."
+        },
+        "icon_url": {
+          "type": "string",
+          "example": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
+          "description": "Currency icon"
+        },
+        "min_confirmations": {
+          "type": "string",
+          "description": "Number of confirmations required for confirming deposit or withdrawal"
+        },
+        "code": {
+          "type": "string",
+          "description": "Unique currency code."
+        },
+        "blockchain_key": {
+          "type": "string",
+          "description": "Associated blockchain key which will perform transactions synchronization for currency."
+        },
+        "min_collection_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimal collection amount."
+        },
+        "visible": {
+          "type": "string",
+          "description": "Currency display status (true/false)."
+        },
+        "subunits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Fraction of the basic monetary unit."
+        },
+        "options": {
+          "type": "json",
+          "description": "Currency options."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Currency created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Currency updated time in iso8601 format."
+        }
+      },
+      "description": "Get list of currencies"
+    },
+    "Market": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+        },
+        "name": {
+          "type": "string",
+          "description": "Market name."
+        },
+        "base_unit": {
+          "type": "string",
+          "description": "Market Base unit."
+        },
+        "quote_unit": {
+          "type": "string",
+          "description": "Market Quote unit."
+        },
+        "min_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order price."
+        },
+        "max_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum order price."
+        },
+        "min_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order amount."
+        },
+        "amount_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order amount."
+        },
+        "price_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order price."
+        },
+        "state": {
+          "type": "string",
+          "description": "Market state defines if user can see/trade on current market."
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Market position."
+        },
+        "data": {
+          "type": "json",
+          "description": "Market additional data."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Market created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Market updated time in iso8601 format."
+        }
+      },
+      "description": "Get all markets, result is paginated."
+    },
+    "Wallet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique wallet identifier in database."
+        },
+        "name": {
+          "type": "string",
+          "description": "Wallet name."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Kind of wallet 'deposit','fee','hot','warm' or 'cold'."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Wallet currency code."
+        },
+        "address": {
+          "type": "string",
+          "description": "Wallet address."
+        },
+        "gateway": {
+          "type": "string",
+          "description": "Wallet gateway."
+        },
+        "max_balance": {
+          "type": "number",
+          "format": "double",
+          "description": "Wallet max balance."
+        },
+        "blockchain_key": {
+          "type": "string",
+          "description": "Wallet blockchain key."
+        },
+        "status": {
+          "type": "string",
+          "description": "Wallet status (active/disabled)."
+        },
+        "settings": {
+          "type": "json",
+          "description": "Wallet settings."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Wallet created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Wallet updated time in iso8601 format."
+        }
+      },
+      "description": "Get all wallets, result is paginated."
+    },
+    "Deposit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique deposit id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Deposit currency id."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit amount."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit fee."
+        },
+        "txid": {
+          "type": "string",
+          "description": "Deposit transaction id."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of deposit confirmations."
+        },
+        "state": {
+          "type": "string",
+          "description": "Deposit state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when deposit was created."
+        },
+        "completed_at": {
+          "type": "string",
+          "description": "The datetime when deposit was completed."
+        },
+        "tid": {
+          "type": "string",
+          "description": "Deposit tid."
+        },
+        "member": {
+          "type": "string",
+          "description": "The member id."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Deposit member uid."
+        },
+        "email": {
+          "type": "string",
+          "description": "The deposit member email."
+        },
+        "address": {
+          "type": "string",
+          "description": "Deposit blockchain address."
+        },
+        "txout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Deposit blockchain transaction output."
+        },
+        "block_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Deposit blockchain block number."
+        },
+        "type": {
+          "type": "string",
+          "description": "Deposit type (fiat or coin)."
+        },
+        "spread": {
+          "type": "string",
+          "description": "Deposit collection spread."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetime when deposit was updated."
+        }
+      },
+      "description": "Get all deposits, result is paginated."
+    },
+    "Withdraw": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The withdrawal id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency code."
+        },
+        "type": {
+          "type": "string",
+          "description": "The withdrawal type"
+        },
+        "sum": {
+          "type": "number",
+          "format": "double",
+          "description": "The withdrawal sum."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "The exchange fee."
+        },
+        "blockchain_txid": {
+          "type": "string",
+          "description": "The withdrawal transaction id."
+        },
+        "rid": {
+          "type": "string",
+          "description": "The beneficiary ID or wallet address on the Blockchain."
+        },
+        "state": {
+          "type": "string",
+          "description": "The withdrawal state."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of confirmations."
+        },
+        "note": {
+          "type": "string",
+          "description": "Withdraw note."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "completed_at": {
+          "type": "string",
+          "description": "The datetime when withdraw was completed."
+        },
+        "member": {
+          "type": "string",
+          "description": "The member id."
+        },
+        "beneficiary": {
+          "$ref": "#/definitions/Beneficiary"
+        },
+        "uid": {
+          "type": "string",
+          "description": "The withdrawal member uid."
+        },
+        "email": {
+          "type": "string",
+          "description": "The withdrawal member email."
+        },
+        "account": {
+          "type": "string",
+          "description": "The account code."
+        },
+        "block_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The withdrawal block_number."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The withdrawal amount."
+        },
+        "tid": {
+          "type": "string",
+          "description": "Withdraw tid."
+        }
+      },
+      "description": "Get all withdraws, result is paginated."
+    },
+    "Beneficiary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Beneficiary Identifier in Database"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Beneficiary currency code."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human rememberable name which refer beneficiary."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human rememberable description of beneficiary."
+        },
+        "data": {
+          "type": "json",
+          "description": "Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin."
+        }
+      }
+    },
+    "Trade": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade price."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade amount."
+        },
+        "total": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade total (Amount * Price)."
+        },
+        "market": {
+          "type": "string",
+          "description": "Trade market id."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Trade create time in iso8601 format."
+        },
+        "taker_type": {
+          "type": "string",
+          "description": "Trade taker order type (sell or buy)."
+        },
+        "maker_order_email": {
+          "type": "string",
+          "description": "Trade maker member email."
+        },
+        "maker_uid": {
+          "type": "string",
+          "description": "Trade maker member uid."
+        },
+        "maker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade maker fee percentage."
+        },
+        "maker_fee_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade maker fee amount."
+        },
+        "maker_fee_currency": {
+          "type": "string",
+          "description": "Trade maker fee currency code."
+        },
+        "maker_order": {
+          "$ref": "#/definitions/Order"
+        },
+        "taker_order_email": {
+          "type": "string",
+          "description": "Trade taker member email."
+        },
+        "taker_uid": {
+          "type": "string",
+          "description": "Trade taker member uid."
+        },
+        "taker_fee_currency": {
+          "type": "string",
+          "description": "Trade taker fee currency code."
+        },
+        "taker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade taker fee percentage."
+        },
+        "taker_fee_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade taker fee amount."
+        },
+        "taker_order": {
+          "$ref": "#/definitions/Order"
+        }
+      },
+      "description": "Get all trades, result is paginated."
+    },
+    "Member": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Member UID."
+        },
+        "email": {
+          "type": "string",
+          "description": "Member email."
+        },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          },
+          "description": "Member accounts."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique member identifier in database."
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Member's level."
+        },
+        "role": {
+          "type": "string",
+          "description": "Member's role."
+        },
+        "group": {
+          "type": "string",
+          "description": "Member's group."
+        },
+        "state": {
+          "type": "string",
+          "description": "Member's state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Member created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Member updated time in iso8601 format."
+        }
+      },
+      "description": "Get all members, result is paginated."
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "description": "Account balance."
+        },
+        "locked": {
+          "type": "number",
+          "format": "double",
+          "description": "Account locked funds."
+        }
+      }
+    },
+    "TradingFee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique trading fee table identifier in database."
+        },
+        "group": {
+          "type": "string",
+          "description": "Member group for define maker/taker fee."
+        },
+        "market_id": {
+          "type": "string",
+          "description": "Market id for define maker/taker fee."
+        },
+        "maker": {
+          "type": "number",
+          "format": "double",
+          "description": "Market maker fee."
+        },
+        "taker": {
+          "type": "number",
+          "format": "double",
+          "description": "Market taker fee."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Trading fee table created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Trading fee table updated time in iso8601 format."
+        }
+      },
+      "description": "Returns trading_fees table as paginated collection"
+    }
+  }
+}
+

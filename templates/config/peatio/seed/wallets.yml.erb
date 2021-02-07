@@ -1,0 +1,395 @@
+<% if ENV['TRADING_FEES_CONFIG'] %>
+<%= File.read(ENV['TRADING_FEES_CONFIG']) %>
+<% else %>
+
+- name:             BTC Deposit Wallet
+  blockchain_key:   btc-mainnet
+  currency_id:      btc
+  address:          '3JqoiCCKYAkPJAwxo3NMAwXhEQzfTGGQdZ'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@bitcoind:8332
+    
+- name:             BTC HOT Wallet
+  blockchain_key:   btc-mainnet
+  currency_id:      btc
+  address:          '35LqL6L9cFdLLJnMRYN68Lz6dbNsNE1Ayt'    
+  kind:             hot     
+  max_balance:      5.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@bitcoind:8332
+
+- name:             BTC FEE Wallet
+  blockchain_key:   btc-mainnet
+  currency_id:      btc
+  address:          '35LqL6L9cFdLLJnMRYN68Lz6dbNsNE1Ayt'    
+  kind:             fee     
+  max_balance:      5.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@bitcoind:8332    
+
+- name:             LTC DEPOSIT Wallet
+  blockchain_key:   ltc-mainnet
+  currency_id:      ltc
+  address:          'MCcWwWpDBd3qSThuF3PG5TjAuEe9hRENT8'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          litecoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@litecoin:9432
+
+- name:             LTC HOT Wallet
+  blockchain_key:   ltc-mainnet
+  currency_id:      ltc
+  address:          'MLJRjPpKPohbzaBZCZQWTfYACmYZ8gCXxb'    
+  kind:             hot     
+  max_balance:      0.0
+  status:           active
+  gateway:          litecoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@litecoin:9432
+
+- name:             LTC FEE Wallet
+  blockchain_key:   ltc-mainnet
+  currency_id:      ltc
+  address:          'MLJRjPpKPohbzaBZCZQWTfYACmYZ8gCXxb'    
+  kind:             fee     
+  max_balance:      0.0
+  status:           active
+  gateway:          litecoind        
+  settings:
+    uri: http://HUYT67GJUJJNDgdj:YUFhf_K&&fhfndklfnvn@litecoin:9432
+
+- name:             NBC DEPOSIT Wallet
+  blockchain_key:   nbc-mainnet
+  currency_id:      nbc
+  address:          'Nv7qoYeVN5hWWM8Avnx8vL8MaPiGY2DxdG'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          dashd        
+  settings:
+    uri: http://nexbitrpc:Fnopb6D7CE21AUGgkFocDY2@217.69.12.134
+
+- name:             NBC HOT Wallet
+  blockchain_key:   nbc-mainnet
+  currency_id:      nbc
+  address:          'Nm6UQdsaxQPURqx8fozp5UcXX6RPuYjMqV'    
+  kind:             hot     
+  max_balance:      100000000.0
+  status:           active
+  gateway:          dashd        
+  settings:
+    uri: http://nexbitrpc:Fnopb6D7CE21AUGgkFocDY2@217.69.12.134
+
+- name:             NBC FEE Wallet
+  blockchain_key:   nbc-mainnet
+  currency_id:      nbc
+  address:          'Nm6UQdsaxQPURqx8fozp5UcXX6RPuYjMqV'    
+  kind:             fee     
+  max_balance:      100000000.0
+  status:           active
+  gateway:          dashd        
+  settings:
+    uri: http://nexbitrpc:Fnopb6D7CE21AUGgkFocDY2@217.69.12.134
+
+- name:             NDC DEPOSIT Wallet
+  blockchain_key:   ndc-mainnet
+  currency_id:      ndc
+  address:          'NtF5i21ehQWCGrgEVNDKpyLfyWSF1kUgM1'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://nexbitrpc:anypasskutta2020abc123@95.179.227.27
+
+- name:             NDC HOT Wallet
+  blockchain_key:   ndc-mainnet
+  currency_id:      ndc
+  address:          'NvEkuEDZF5VtXw6f1x51hXtfRH8ZMjUZ1z'    
+  kind:             hot     
+  max_balance:      1000000.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://nexbitrpc:anypasskutta2020abc123@95.179.227.27
+
+- name:             NDC FEE Wallet
+  blockchain_key:   ndc-mainnet
+  currency_id:      ndc
+  address:          'NvEkuEDZF5VtXw6f1x51hXtfRH8ZMjUZ1z'    
+  kind:             fee     
+  max_balance:      1000000.0
+  status:           active
+  gateway:          bitcoind        
+  settings:
+    uri: http://nexbitrpc:anypasskutta2020abc123@95.179.227.27
+
+
+- name:             ETH Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+- name:             ETH HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      200.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             ETH FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      200.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             USDT Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      usdt
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+- name:             USDT HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      usdt
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      20000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             USDT FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      usdt
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      20000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             QPY Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qpy
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+- name:             QPY HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qpy
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      500000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             QPY FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qpy
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      500000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+
+- name:             QBTC Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qbtc
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+
+- name:             QBTC HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qbtc
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      500000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             QBTC FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qbtc
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      500000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             QUDC Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qudc
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+
+- name:             QUDC HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qudc
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      5000000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             QUDC FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      qudc
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      5000000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             DSR Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dsr
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+
+- name:             DSR HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dsr
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      10000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             DSR FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dsr
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      10000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             DCA Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dca
+  address:          '0xa7da7767e2cb65fef200dae6b3e57858687e08bd'    
+  kind:             deposit     
+  max_balance:      0.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'TYjj_65&HJNd@#Dc_poM'
+
+
+- name:             DCA HOT Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dsr
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             hot     
+  max_balance:      10000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+- name:             DCA FEE Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      dca
+  address:          '0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5'    
+  kind:             fee     
+  max_balance:      10000000.0
+  status:           active
+  gateway:          parity        
+  settings:
+    uri:          http://parity:8545
+    secret:       'HJuy67^&Hhjk67543gFFFv'
+
+<% end %>

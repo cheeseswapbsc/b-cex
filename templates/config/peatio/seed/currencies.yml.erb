@@ -1,0 +1,213 @@
+<% if ENV['CURRENCIES_CONFIG'] %>
+<%= File.read(ENV['CURRENCIES_CONFIG']) %>
+<% else %>
+- id:                     usd
+  name:                   US Dollar
+  symbol:                 '$'
+  type:                   fiat
+  precision:              2
+  base_factor:            1
+  enabled:                true
+  min_deposit_amount:     0
+  min_collection_amount:  0
+  withdraw_limit_24h:     100
+  withdraw_limit_72h:     200
+  deposit_fee:            0
+  withdraw_fee:           0
+  position:               1000
+  options:                {}
+
+- id:                     btc
+  name:                   Bitcoin
+  blockchain_key:         btc-mainnet
+  symbol:                 '฿'
+  type:                   coin
+  precision:              8
+  base_factor:            100_000_000
+  enabled:                true
+  min_deposit_amount:     0.0025
+  min_collection_amount:  0.0000356
+  withdraw_limit_24h:     2.0
+  withdraw_limit_72h:     8.0
+  deposit_fee:            0
+  withdraw_fee:           0.0015
+  position:               1
+  options:                {}
+ 
+- id:                     ltc
+  name:                   Litecoin
+  blockchain_key:         ltc-mainnet
+  symbol:                 'l'
+  type:                   coin
+  precision:              8
+  base_factor:            100_000_000
+  enabled:                true
+  min_deposit_amount:     0.0356
+  min_collection_amount:  0.00356
+  withdraw_limit_24h:     1000.00
+  withdraw_limit_72h:     4000.00
+  deposit_fee:            0
+  withdraw_fee:           0.01
+  position:               4
+  options:                {}
+ 
+- id:                     eth
+  name:                   Ethereum
+  blockchain_key:         eth-mainnet
+  symbol:                 'Ξ'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000_000_000_000_000
+  enabled:                true
+  min_deposit_amount:     0.05
+  min_collection_amount:  0.0015
+  withdraw_limit_24h:     200
+  withdraw_limit_72h:     1000
+  deposit_fee:            0
+  withdraw_fee:           0.015
+  position:               2
+  options:
+    gas_limit: 21_000
+    gas_price: 45_000_000_000
+
+- id:                     usdt
+  name:                   Tether USD
+  blockchain_key:         eth-mainnet
+  symbol:                 'T'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000 
+  enabled:                true
+  min_deposit_amount:     20.00
+  min_collection_amount:  0.10
+  withdraw_limit_24h:     10000.00
+  withdraw_limit_72h:     40000.00
+  deposit_fee:            0
+  withdraw_fee:           0.75
+  position:               0
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0xdac17f958d2ee523a2206206994597c13d831ec7' # Always wrap this value in quotes!
+
+- id:                     qbtc
+  name:                   QBTC
+  blockchain_key:         eth-mainnet
+  symbol:                 'Q'
+  type:                   coin
+  precision:              12
+  base_factor:            1_000_000_000_000_000_000 
+  enabled:                true
+  min_deposit_amount:     20.00
+  min_collection_amount:  0.0010
+  withdraw_limit_24h:     10000.00
+  withdraw_limit_72h:     40000.00
+  deposit_fee:            0
+  withdraw_fee:           0.0075
+  position:               0
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0x1089cc742f0f9712eb64d01bde67e82a800d2f77' # Always wrap this value in quotes!
+
+- id:                     qudc
+  name:                   QUDC
+  blockchain_key:         eth-mainnet
+  symbol:                 'U'
+  type:                   coin
+  precision:              12
+  base_factor:            1_000_000_000_000_000_000 
+  enabled:                true
+  min_deposit_amount:     200000.00
+  min_collection_amount:  10.0010
+  withdraw_limit_24h:     100000000.00
+  withdraw_limit_72h:     400000000.00
+  deposit_fee:            0
+  withdraw_fee:           20000.0075
+  position:               0
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0xB2b4076a36b8993094cBfdb72512820B8BeDb6Ce' # Always wrap this value in quotes!
+
+- id:                     qpy
+  name:                   QPay
+  blockchain_key:         eth-mainnet
+  symbol:                 'Q'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000_000_000_000_000
+  enabled:                true
+  min_deposit_amount:     200000.00
+  min_collection_amount:  2.00
+  withdraw_limit_24h:     100000000.00
+  withdraw_limit_72h:     400000000.00
+  deposit_fee:            0
+  withdraw_fee:           6000.00
+  position:               3
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0x6911270d4bc1915744aedd785d41d44f47245bd0' # Always wrap this value in quotes!
+
+- id:                     eosb
+  name:                   EOSB
+  blockchain_key:         eth-mainnet
+  symbol:                 'E'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000_000_000_000_000
+  enabled:                true
+  min_deposit_amount:     50000.00
+  min_collection_amount:  2.00
+  withdraw_limit_24h:     100000000.00
+  withdraw_limit_72h:     400000000.00
+  deposit_fee:            0
+  withdraw_fee:           5000.00
+  position:               11
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0x657a5dc7628f0f976eb443f9de0b358f468191d9' # Always wrap this value in quotes!
+ 
+- id:                     dca
+  name:                   DecentralizeCurrency
+  blockchain_key:         eth-mainnet
+  symbol:                 'D'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000_000_000_000_000 
+  enabled:                true
+  min_deposit_amount:     10000.00
+  min_collection_amount:  2.00
+  withdraw_limit_24h:     10000000.00
+  withdraw_limit_72h:     40000000.00
+  deposit_fee:            0
+  withdraw_fee:           2000.00
+  position:               6
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0x18aa7c90d3ae4c5bb219d0a2813f441704084625' # Always wrap this value in quotes!
+ 
+ 
+- id:                     dsr
+  name:                   DSR Coin
+  blockchain_key:         eth-mainnet
+  symbol:                 'Ḏ'    #unicode U+1E0E #html &#7694;
+  type:                   coin
+  precision:              8
+  base_factor:            100_000_000_000 
+  enabled:                true
+  min_deposit_amount:     500.00
+  min_collection_amount:  0.05
+  withdraw_limit_24h:     10000.00
+  withdraw_limit_72h:     30000.00
+  deposit_fee:            0
+  withdraw_fee:           20.00
+  position:               5
+  options:
+    gas_limit: 90_000
+    gas_price: 45_000_000_000
+    erc20_contract_address: '0x18aa7c90d3ae4c5bb219d0a2813f441704084625' # Always wrap this value in quotes!
+ <% end %>

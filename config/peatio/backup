@@ -1,0 +1,162 @@
+# Be sure to restart your server when you modify this file.
+#
+# This file keeps all the security configuration variables for «Management API v1».
+#
+# Keeps all the public keys used to validate signatures.
+# All values must be presented in PEM format and be URL-safe Base64 encoded.
+#
+keychain:
+  barong:
+    algorithm: RS256
+    value: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF2OVNEdDJTZk5TR2VjYmt3dE5iSwpud3AyY09DMWhDa2hXeFJWdytlTnlnODBBRXBRbEs2UWxLVlJmZDlHT3I2YUptVXJQRDZyL1B1QmRGUjlIQll4CkNHL09jL3pSMnl2M0xyNmx0NXhRUTJDUEV5bEhZd2xDWU1xZVJZb08zN3UvWW1nTEMva2J4dTBxcFlFcVVpRUIKaG9qVVg1UmlRUlk2WnFjY0tZQkJ5UjIrTDc2eHRxMzRnUXoyNUQyRjJ3bCtKR29vd01ndWpzOERRWnYyeXEzagpwdzcyeHZDMU5wdUFpNkExcXVUUFJPcGcrQllNMU9BVlorRG9rT1BVZUpIV3Y4aDZ5T3JTcUdwcFN6THhVckRkCmhYdGg5MWFzdnkvQW13TU5nbVVsV29kZFU2cDVBZ2p4NTNnelRsN1N6NzBVTGZ2SHpKaVZtYnZGaDE3N3JyTXEKWlFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+# Keep all the API security scopes.
+#
+# The API security scope consists of scope name, list of permitted and mandatory signers.
+# The scope name is associated with API actions. For example, write_deposits is associated with
+# ability to create deposits and accept them. The scopes which have «write» in the name are supposed
+# to be dangerous so they must require more signatures then read-only scopes
+#
+#  
+
+scopes:
+  read_operations:
+    mandatory_signers:
+      - barong
+    permitted_signers:
+      - barong
+  write_operations:
+    mandatory_signers:
+      - barong
+    permitted_signers:
+      - barong
+  read_deposits:
+    permitted_signers:
+      - barong 
+    mandatory_signers: 
+  write_deposits:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_withdraws:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_withdraws:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_transfers:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_transfers:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_operations:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_operations:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_accounts:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_orders:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_orders:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_transfers:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_transfers:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_revenue_shares:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_revenue_shares:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_accounts:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_accounts:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  read_trades:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_trades:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_transfers:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_members:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  write_labels:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  otp_sign:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  arke:
+    permitted_signers:
+      - barong
+    mandatory_signers:
+      - barong
+  tool:
+    permitted_signers:
+      - barong 
+    mandatory_signers:
+      - barong
+#
+#
+# Keeps all the JWT verification options.
+# The documentation is available at https://github.com/jwt/ruby-jwt#support-for-reserved-claim-names.
+# Check lib/jwt/default_options.rb for the default options.
+#
+jwt: {}

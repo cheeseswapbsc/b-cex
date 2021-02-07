@@ -1,0 +1,19 @@
+version: '3.6'
+
+services:
+  arke-maker:
+    restart: always
+    image: "ndexnetwork/arke1.10"
+    env_file:
+      - ../config/arke.env
+    volumes:
+      - ../config/arke/strategies.yml:/home/app/config/strategies.yml
+    command: ./bin/arke start
+
+  arke-etl:
+    image: "ndexnetwork/arke1.10"
+    env_file:
+      - ../config/arke.env
+    volumes:
+      - ../config/arke/etl.yml:/home/app/config/etl.yml
+    command: ./bin/arke etl start

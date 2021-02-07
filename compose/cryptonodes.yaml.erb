@@ -1,0 +1,39 @@
+version: '3.6'
+
+services:
+  parity:
+    image: parity/parity:v2.7.2-stable
+    restart: always
+    command: |
+      --no-discovery --warp
+      --warp-upto=9000000
+      --no-ancient-blocks
+      --warp-barrier=9000000
+      --pruning=fast
+      --tracing=off
+      --fat-db=off
+      --pruning-memory  64
+      --mode=active
+      --interface=all
+      --min-peers=25
+      --snapshot-peers=5
+      --max-peers=50
+      --author=0xebe03a8a313e7a34004f50d7df2aecf2d32cf7f5
+      --jsonrpc-interface=0.0.0.0
+      --jsonrpc-cors=all
+      --jsonrpc-hosts=all
+      --jsonrpc-apis=all
+      --db-compaction=ssd
+    volumes:
+      - ../data/parity:/home/app/.ethereum
+    ports:
+      - "8545"
+      - "30303"
+
+  litecoind:
+    image: quay.io/openware/litecoind:0.16.3
+    restart: always
+    volumes:
+      - ../data/litecoin:/litecoin
+      - ../config/litecoin.conf:/root/.litecoin/litecoin.conf
+  
